@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class InMemoryTimeEntryRepository implements TimeEntryRepository {
-    public static Map<Long,TimeEntry> timeEntries= new HashMap<Long,TimeEntry>() ;
-    static long id=1L;
+    public  Map<Long,TimeEntry> timeEntries= new HashMap<Long,TimeEntry>() ;
+    long id=1L;
     public TimeEntry create(TimeEntry timeEntry) {
         timeEntry.setId(id);
         //TimeEntry entry = new TimeEntry(id, timeEntry.getProjectId(), timeEntry.getUserId(), LocalDate.parse("2017-01-08"), 8);
