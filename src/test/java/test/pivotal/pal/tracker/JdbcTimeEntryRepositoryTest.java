@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,10 @@ public class JdbcTimeEntryRepositoryTest {
     @Test
     public void createInsertsATimeEntryRecord() {
         TimeEntry newTimeEntry = new TimeEntry(123, 321, LocalDate.parse("2017-01-09"), 8);
-        TimeEntry entry = subject.create(newTimeEntry);
+        TimeEntry entry = null;
+
+            entry = subject.create(newTimeEntry);
+
 
         Map<String, Object> foundEntry = jdbcTemplate.queryForMap("Select * from time_entries where id = ?", entry.getId());
 

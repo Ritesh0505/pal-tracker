@@ -3,6 +3,7 @@ package io.pivotal.pal.tracker;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class TimeEntry {
 
@@ -50,12 +51,18 @@ public class TimeEntry {
     public LocalDate getParse() {
         return parse;
     }
+    public LocalDate getDate() {
+        return parse;
+    }
 
     public void setParse(LocalDate parse) {
         this.parse = parse;
     }
 
     public int getI() {
+        return i;
+    }
+    public int getHours() {
         return i;
     }
 
@@ -76,6 +83,7 @@ public class TimeEntry {
     long id;
     long projectId;
     long userId;
+
     @JsonProperty("date")
     LocalDate parse;
     @JsonProperty("hours")

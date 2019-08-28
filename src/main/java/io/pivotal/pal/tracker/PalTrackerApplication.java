@@ -15,4 +15,5 @@ public class PalTrackerApplication {
     public TimeEntryRepository getTimeEntryRepo () {
         return new InMemoryTimeEntryRepository();
     }
+
 }
