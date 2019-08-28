@@ -27,7 +27,7 @@ public class InMemoryTimeEntryRepositoryTest {
         assertThat(readEntry).isEqualTo(expected);
     }
 
-    @Test
+   @Test
     public void find() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
 
