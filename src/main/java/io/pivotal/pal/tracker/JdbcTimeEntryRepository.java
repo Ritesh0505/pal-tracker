@@ -20,11 +20,12 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
     public TimeEntry create(TimeEntry timeEntry)  {
 
         ResultSet rs=null;
-
+        Connection con =null;
 
         PreparedStatement ps = null;
         try {
-            ps =  ds.getConnection().prepareStatement("insert into time_entries (project_id, user_id, date, hours) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            con= ds.getConnection();
+            ps =  con.prepareStatement("insert into time_entries (project_id, user_id, date, hours) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, timeEntry.getProjectId());
             ps.setLong(2, timeEntry.getUserId());
             ps.setDate(3, Date.valueOf(timeEntry.getDate()));
@@ -35,10 +36,13 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
                 rs=ps.getGeneratedKeys();
                 rs.next();
                 timeEntry.setId(rs.getInt(1));
+
             }
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
 
 
@@ -50,14 +54,16 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
         TimeEntry timeEntry=null;
         ResultSet rs=null;
         PreparedStatement ps = null;
+        Connection con =null;
         try {
-            ps =  ds.getConnection().prepareStatement("select * from time_entries where id=?",Statement.RETURN_GENERATED_KEYS);
+            con= ds.getConnection();
+            ps =  con.prepareStatement("select * from time_entries where id=?",Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, id);
 
             rs= ps.executeQuery();
             while(rs.next())
             timeEntry=new TimeEntry(rs.getLong("id"),rs.getLong("project_id"),rs.getLong("user_id"),rs.getDate("date").toLocalDate(),rs.getInt("hours"));
-
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,15 +77,16 @@ return timeEntry;
     public List<TimeEntry> list() {
         List<TimeEntry> timeEntries=new ArrayList<TimeEntry>();
         ResultSet rs=null;
-
+        Connection con =null;
 
         PreparedStatement ps = null;
         try {
-            ps = ds.getConnection().prepareStatement("select * from time_entries ");
+            con= ds.getConnection();
+            ps = con.prepareStatement("select * from time_entries ");
             rs= ps.executeQuery();
             while(rs.next())
                 timeEntries.add(new TimeEntry(rs.getLong("id"),rs.getLong("project_id"),rs.getLong("user_id"),rs.getDate("date").toLocalDate(),rs.getInt("hours"))) ;
-
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,10 +98,11 @@ return timeEntry;
     public TimeEntry update(long id, TimeEntry timeEntry) {
         TimeEntry timeEntry1=null;
         ResultSet rs=null;
-
+        Connection con =null;
         PreparedStatement ps = null;
         try {
-            ps =  ds.getConnection().prepareStatement("update time_entries set project_id=? ,user_id=?,date=?,hours=? where id=?");
+            con= ds.getConnection();
+            ps = con.prepareStatement("update time_entries set project_id=? ,user_id=?,date=?,hours=? where id=?");
             ps.setLong(1, timeEntry.getProjectId());
             ps.setLong(2, timeEntry.getUserId());
             ps.setDate(3, Date.valueOf(timeEntry.getDate()));
@@ -104,6 +112,7 @@ return timeEntry;
             if(rowAffected>0){
                 timeEntry1= find(id);
             }
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,14 +127,15 @@ return timeEntry;
         TimeEntry timeEntry1=null;
         ResultSet rs=null;
 
-
+        Connection con =null;
         PreparedStatement ps = null;
         try {
-            ps =  ds.getConnection().prepareStatement("delete from time_entries where id=?");
+            con= ds.getConnection();
+            ps =  con.prepareStatement("delete from time_entries where id=?");
 
             ps.setLong(1, id);
             int rowAffected= ps.executeUpdate();
-
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
