@@ -1,9 +1,6 @@
 package io.pivotal.pal.tracker;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
-import java.util.Date;
 
 public class TimeEntry {
 
@@ -27,8 +24,8 @@ public class TimeEntry {
                 "id=" + id +
                 ", projectId=" + projectId +
                 ", userId=" + userId +
-                ", parse=" + parse +
-                ", i=" + i +
+                ", parse=" + date +
+                ", i=" + hours +
                 '}';
     }
 
@@ -48,26 +45,20 @@ public class TimeEntry {
         this.userId = userId;
     }
 
-    public LocalDate getParse() {
-        return parse;
-    }
     public LocalDate getDate() {
-        return parse;
+        return date;
     }
 
-    public void setParse(LocalDate parse) {
-        this.parse = parse;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public int getI() {
-        return i;
-    }
     public int getHours() {
-        return i;
+        return hours;
     }
 
-    public void setI(int i) {
-        this.i = i;
+    public void setHours(int hours) {
+        this.hours = hours;
     }
 
 
@@ -85,21 +76,21 @@ public class TimeEntry {
     long userId;
 
    // @JsonProperty("date")
-    LocalDate parse;
+    LocalDate date;
    // @JsonProperty("hours")
-    int i;
-    public TimeEntry(long projectId, long userId, LocalDate parse, int i) {
+    int hours;
+    public TimeEntry(long projectId, long userId, LocalDate date, int hours) {
 this.projectId=projectId;
 this.userId=userId;
-this.parse=parse;
-this.i=i;
+this.date = date;
+this.hours = hours;
     }
-    public TimeEntry(long timeEntryId, long projectId, long userId, LocalDate parse, int i) {
+    public TimeEntry(long timeEntryId, long projectId, long userId, LocalDate date, int hours) {
         this.id=timeEntryId;
         this.projectId=projectId;
         this.userId=userId;
-        this.parse=parse;
-        this.i=i;
+        this.date = date;
+        this.hours = hours;
     }
 
 }

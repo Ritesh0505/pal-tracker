@@ -1,6 +1,5 @@
 package io.pivotal.pal.tracker;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
 import com.mysql.cj.jdbc.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -32,8 +31,8 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
             ps = (PreparedStatement) ds.getConnection().prepareStatement("insert into time_entries (project_id, user_id, date, hours) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, timeEntry.getProjectId());
             ps.setLong(2, timeEntry.getUserId());
-            ps.setDate(3, Date.valueOf(timeEntry.getParse()));
-            ps.setInt(4, timeEntry.getI());
+            ps.setDate(3, Date.valueOf(timeEntry.getDate()));
+            ps.setInt(4, timeEntry.getHours());
 
             int rowAffected= ps.executeUpdate();
             if(rowAffected>0){
@@ -105,8 +104,8 @@ return timeEntry;
             ps = (PreparedStatement) ds.getConnection().prepareStatement("update time_entries set project_id=? ,user_id=?,date=?,hours=? where id=?");
             ps.setLong(1, timeEntry.getProjectId());
             ps.setLong(2, timeEntry.getUserId());
-            ps.setDate(3, Date.valueOf(timeEntry.getParse()));
-            ps.setInt(4, timeEntry.getI());
+            ps.setDate(3, Date.valueOf(timeEntry.getDate()));
+            ps.setInt(4, timeEntry.getHours());
             ps.setLong(5, id);
             int rowAffected= ps.executeUpdate();
             if(rowAffected>0){

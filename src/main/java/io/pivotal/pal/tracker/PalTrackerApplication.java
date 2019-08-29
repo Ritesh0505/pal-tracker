@@ -20,6 +20,7 @@ public class PalTrackerApplication {
         dataSource.setUrl(System.getenv("SPRING_DATASOURCE_URL"));
         return dataSource;
     }
+
     @Bean
     public TimeEntryRepository getTimeEntryRepo (DataSource ds) {
         return new JdbcTimeEntryRepository(ds);
