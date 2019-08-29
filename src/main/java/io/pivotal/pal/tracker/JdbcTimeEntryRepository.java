@@ -49,8 +49,6 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
     public TimeEntry find(long id) {
         TimeEntry timeEntry=null;
         ResultSet rs=null;
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
         PreparedStatement ps = null;
         try {
             ps =  ds.getConnection().prepareStatement("select * from time_entries where id=?",Statement.RETURN_GENERATED_KEYS);
@@ -73,7 +71,7 @@ return timeEntry;
     public List<TimeEntry> list() {
         List<TimeEntry> timeEntries=new ArrayList<TimeEntry>();
         ResultSet rs=null;
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
 
         PreparedStatement ps = null;
         try {
@@ -93,7 +91,6 @@ return timeEntry;
     public TimeEntry update(long id, TimeEntry timeEntry) {
         TimeEntry timeEntry1=null;
         ResultSet rs=null;
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
         PreparedStatement ps = null;
         try {
@@ -120,7 +117,7 @@ return timeEntry;
     public void delete(long id) {
         TimeEntry timeEntry1=null;
         ResultSet rs=null;
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
 
         PreparedStatement ps = null;
         try {
