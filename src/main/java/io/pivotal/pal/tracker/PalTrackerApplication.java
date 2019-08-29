@@ -1,8 +1,11 @@
 package io.pivotal.pal.tracker;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import javax.sql.DataSource;
 
 @SpringBootApplication
 public class PalTrackerApplication {
@@ -12,8 +15,14 @@ public class PalTrackerApplication {
     }
 
     @Bean
-    public TimeEntryRepository getTimeEntryRepo () {
-        return new InMemoryTimeEntryRepository();
+    public DataSource getDs(){
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUrl(System.getenv("SPRING_DATASOURCE_URL"));
+        return dataSource;
+    }
+    @Bean
+    public TimeEntryRepository getTimeEntryRepo (DataSource ds) {
+        return new JdbcTimeEntryRepository(ds);
     }
 
 }

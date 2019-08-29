@@ -84,9 +84,9 @@ public class TimeEntry {
     long projectId;
     long userId;
 
-    @JsonProperty("date")
+   // @JsonProperty("date")
     LocalDate parse;
-    @JsonProperty("hours")
+   // @JsonProperty("hours")
     int i;
     public TimeEntry(long projectId, long userId, LocalDate parse, int i) {
 this.projectId=projectId;

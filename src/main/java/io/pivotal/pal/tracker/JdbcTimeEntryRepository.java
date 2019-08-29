@@ -14,15 +14,18 @@ import java.util.List;
 
 public class JdbcTimeEntryRepository implements TimeEntryRepository {
     DataSource ds;
-    public JdbcTimeEntryRepository(MysqlDataSource dataSource) {
-        this.ds = dataSource;
+    JdbcTemplate jdbcTemplate;
+    public JdbcTimeEntryRepository(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.ds=dataSource;
+
     }
 
     @Override
     public TimeEntry create(TimeEntry timeEntry)  {
 
         ResultSet rs=null;
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
 
         PreparedStatement ps = null;
         try {
