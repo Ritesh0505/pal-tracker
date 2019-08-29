@@ -1,13 +1,9 @@
 package io.pivotal.pal.tracker;
 
-import com.mysql.cj.jdbc.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +24,7 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
 
         PreparedStatement ps = null;
         try {
-            ps = (PreparedStatement) ds.getConnection().prepareStatement("insert into time_entries (project_id, user_id, date, hours) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps =  ds.getConnection().prepareStatement("insert into time_entries (project_id, user_id, date, hours) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, timeEntry.getProjectId());
             ps.setLong(2, timeEntry.getUserId());
             ps.setDate(3, Date.valueOf(timeEntry.getDate()));
@@ -57,7 +53,7 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
 
         PreparedStatement ps = null;
         try {
-            ps = (PreparedStatement) ds.getConnection().prepareStatement("select * from time_entries where id=?",Statement.RETURN_GENERATED_KEYS);
+            ps =  ds.getConnection().prepareStatement("select * from time_entries where id=?",Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, id);
 
             rs= ps.executeQuery();
@@ -81,7 +77,7 @@ return timeEntry;
 
         PreparedStatement ps = null;
         try {
-            ps = (PreparedStatement) ds.getConnection().prepareStatement("select * from time_entries ");
+            ps = ds.getConnection().prepareStatement("select * from time_entries ");
             rs= ps.executeQuery();
             while(rs.next())
                 timeEntries.add(new TimeEntry(rs.getLong("id"),rs.getLong("project_id"),rs.getLong("user_id"),rs.getDate("date").toLocalDate(),rs.getInt("hours"))) ;
@@ -101,7 +97,7 @@ return timeEntry;
 
         PreparedStatement ps = null;
         try {
-            ps = (PreparedStatement) ds.getConnection().prepareStatement("update time_entries set project_id=? ,user_id=?,date=?,hours=? where id=?");
+            ps =  ds.getConnection().prepareStatement("update time_entries set project_id=? ,user_id=?,date=?,hours=? where id=?");
             ps.setLong(1, timeEntry.getProjectId());
             ps.setLong(2, timeEntry.getUserId());
             ps.setDate(3, Date.valueOf(timeEntry.getDate()));
@@ -128,7 +124,7 @@ return timeEntry;
 
         PreparedStatement ps = null;
         try {
-            ps = (PreparedStatement) ds.getConnection().prepareStatement("delete from time_entries where id=?");
+            ps =  ds.getConnection().prepareStatement("delete from time_entries where id=?");
 
             ps.setLong(1, id);
             int rowAffected= ps.executeUpdate();
